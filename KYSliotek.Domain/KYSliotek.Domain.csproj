@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KYSliotek.Framework\KYSliotek.Framework.csproj" />
+    <ProjectReference Include="..\KYSliotek.FrameworkNew\KYSliotek.Framework.csproj" />
   </ItemGroup>
 
 </Project>

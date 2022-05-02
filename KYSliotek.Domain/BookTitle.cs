@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KYSliotek.Framework;
+using System;
 using System.Text.RegularExpressions;
 
 namespace KYSliotek.Domain

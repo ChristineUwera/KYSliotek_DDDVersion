@@ -4,11 +4,11 @@ using System.Text;
 
 namespace KYSliotek.Domain
 {
-    public class AuthorId
+    public class UserId
     {
         private Guid Value { get; set; }
 
-        public AuthorId(Guid value)
+        public UserId(Guid value)
         {
             if (value == default)
                 throw new ArgumentNullException(nameof(value), "Author id cannot be empty");
@@ -16,6 +16,6 @@ namespace KYSliotek.Domain
             Value = value;
         }
 
-        public static implicit operator Guid(AuthorId self) => self.Value;
+        public static implicit operator Guid(UserId self) => self.Value;
     }
 }

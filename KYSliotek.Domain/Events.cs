@@ -33,7 +33,6 @@ namespace KYSliotek.Domain
             public Guid Id { get; set; }
             public Guid AuthorId { get; set; }
             public Guid ApprovedBy { get; set; }
-        }
-        
+        }        
     }
 }

@@ -16,7 +16,8 @@ namespace KYSliotek.Domain
         public BookStatus Status { get; private set; }
         public UserId ApprovedBy { get; private set; }
 
-
+        //Number of Items
+        //ISBN 
         //need a picture as well
 
         public Book(BookId id, UserId authorId)
@@ -121,7 +122,7 @@ namespace KYSliotek.Domain
             PendingReview,
             Active,
             Inactive,
-            MarkedAsUdlånt      //bogen er udlånt
+            Borrowed      //bogen er udlånt
         }
     }
 }

@@ -1,26 +1,44 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using static System.Reflection.Assembly;
+using static System.Environment;
+using Serilog;
+using System.IO;
 
 namespace KYSliotek
 {
     public class Program
     {
+        static Program() =>
+           CurrentDirectory = Path.GetDirectoryName(GetEntryAssembly().Location);
+
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            var configuration = BuildConfiguration(args);
+
+            ConfigureWebHostBuilder(configuration).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        private static IConfiguration BuildConfiguration(string[] args)
+        {
+            return new ConfigurationBuilder()
+                    .SetBasePath(CurrentDirectory)                    
+                    .Build();
+        }
+
+        public static IWebHostBuilder ConfigureWebHostBuilder(IConfiguration configuration)
+        {
+            return new WebHostBuilder()
+                    .UseStartup<Startup>()
+                    .UseConfiguration(configuration)
+                    .UseContentRoot(CurrentDirectory)
+                    .UseKestrel();
+        }            
     }
 }

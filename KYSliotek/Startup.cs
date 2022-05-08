@@ -16,21 +16,25 @@ namespace KYSliotek
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+
+        private IWebHostEnvironment Environment { get; }
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+            Environment = environment; 
+        }       
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddMvc();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "KYSliotek", Version = "v1" });
+                c.SwaggerDoc("v1", 
+                    new OpenApiInfo { Title = "KYSliotek", Version = "v1" });
             });
         }
 
@@ -39,16 +43,19 @@ namespace KYSliotek
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KYSliotek v1"));
+                app.UseDeveloperExceptionPage();  
             }
-
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "KYSliotek v1");
+                c.RoutePrefix = string.Empty;
+            });
+
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

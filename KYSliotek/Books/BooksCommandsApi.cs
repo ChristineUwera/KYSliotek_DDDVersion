@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using System;
 using System.Threading.Tasks;
 using static KYSliotek.Commands.Contracts;
 
@@ -15,43 +17,56 @@ namespace KYSliotek.Books
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(V1.Create request)
+        public Task<IActionResult> Post(V1.Create request)
         {
-            await _applicationService.Handle(request);
-            return Ok();
+            return HandleRequest(request, _applicationService.Handle);
         }
 
         [Route("title")]
         [HttpPut]
-        public async Task<IActionResult> Put(V1.SetTitle request)
+        public Task<IActionResult> Put(V1.SetTitle request)
         {
-            await _applicationService.Handle(request);
-            return Ok();
+            return HandleRequest(request, _applicationService.Handle);
         }
 
         [Route("description")]
         [HttpPut]
-        public async Task<IActionResult> Put(V1.UpdateDescription request)
+        public Task<IActionResult> Put(V1.UpdateDescription request)
         {
-            await _applicationService.Handle(request);
-            return Ok();
+            return HandleRequest(request, _applicationService.Handle);
         }
 
         [Route("requestToPublish")]
         [HttpPut]
-        public async Task<IActionResult> Put(V1.RequestToPublish request)
+        public Task<IActionResult> Put(V1.RequestToPublish request)
         {
-            await _applicationService.Handle(request);
-            return Ok();
+            //await _applicationService.Handle(request);
+            //return Ok();
+            return HandleRequest(request, _applicationService.Handle);
         }
 
         [Route("publish")]
         [HttpPut]
-        public async Task<IActionResult> Put(V1.Publish request)
+        public Task<IActionResult> Put(V1.Publish request)
         {
-            await _applicationService.Handle(request);
-            return Ok();
+            //await _applicationService.Handle(request);
+            //return Ok();
+            return HandleRequest(request, _applicationService.Handle);
         }
 
+        private async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task> handler)
+        {
+            try
+            {
+                Log.Debug("Handling HTTP request of type {type}", typeof(T).Name);
+                await handler(request);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "Error handling the request");
+                return new BadRequestObjectResult(new { error = e.Message, stackTrace = e.StackTrace });
+            }
+        }
     }
 }

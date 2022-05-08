@@ -1,4 +1,4 @@
-﻿using KYSliotek.Domain;
+﻿using KYSliotek.Domain.Book;
 using Raven.Client.Documents.Session;
 using System.Threading.Tasks;
 

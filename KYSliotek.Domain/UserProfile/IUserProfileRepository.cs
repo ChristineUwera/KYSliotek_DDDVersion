@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using KYSliotek.Domain.Shared;
 using System.Threading.Tasks;
 
 namespace KYSliotek.Domain.UserProfile

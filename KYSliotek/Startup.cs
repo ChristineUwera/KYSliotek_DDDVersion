@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Raven.Client.Documents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,17 @@ namespace KYSliotek
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //RavenDb
+            var store = new DocumentStore
+            {
+                Urls = new[] { "http://localhost:8080" },
+                Database = "MiniBibliotek_Db",
+                Conventions =
+                {
+                    FindIdentityProperty = x => x.Name == "DbId"
+                }
+            };
+            store.Initialize();
 
             services.AddMvc();
             services.AddSwaggerGen(c =>

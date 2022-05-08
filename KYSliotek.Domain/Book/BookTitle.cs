@@ -2,7 +2,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace KYSliotek.Domain
+namespace KYSliotek.Domain.Book
 {
     public class BookTitle : Value<BookTitle>
     {

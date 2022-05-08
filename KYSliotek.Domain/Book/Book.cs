@@ -3,25 +3,34 @@ using KYSliotek.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static KYSliotek.Domain.Events;
+using static KYSliotek.Domain.Book.Picture;
+using static KYSliotek.Domain.Book.Events;
 
-namespace KYSliotek.Domain
+namespace KYSliotek.Domain.Book
 {
-    public class Book: Entity
+    public class Book: AggregateRoot<BookId>
     {
-        public BookId Id { get; private set; }
+        // Property to handle the persistence
+        private string DbId
+        {
+            get => $"Book/{Id.Value}";
+            set { }
+        }
+
+        //public BookId Id { get; private set; }
         public UserId AuthorId { get; private set; }
         public BookTitle Title { get; private set; }
         public BookDescription Description { get; private set; }        
         public BookStatus Status { get; private set; }
         public UserId ApprovedBy { get; private set; }
-
+        public Picture Picture { get; private set; }
+        
         //Number of Items
         //ISBN 
-        //need a picture as well
+       
 
         public Book(BookId id, UserId authorId)
-        {   
+        {           
             Apply(new Events.BookCreated
             {
                 Id = id,
@@ -62,6 +71,19 @@ namespace KYSliotek.Domain
                 Id = Id,
                 ApprovedBy = userId
             });
+        }
+
+        public void AddPicture(Uri pictureUri, PictureSize size)
+        {
+            Apply(new Events.PictureAddedToBook
+            {
+                PictureId = new Guid(),
+                BookId = Id,
+                Url = pictureUri.ToString(),
+                Height = size.Height,
+                Width = size.Width
+            }
+            );
         }
 
         protected override void EnsureValidState()
@@ -113,6 +135,13 @@ namespace KYSliotek.Domain
                 case BookPublished e:
                     ApprovedBy = new UserId(e.ApprovedBy);
                     Status = BookStatus.Active;
+                    break;
+
+                //picture
+                case Events.PictureAddedToBook e:
+                    var newPicture = new Picture(Apply);
+                    ApplyToEntity(newPicture, e);
+                    Picture = newPicture;
                     break;
             }
         }

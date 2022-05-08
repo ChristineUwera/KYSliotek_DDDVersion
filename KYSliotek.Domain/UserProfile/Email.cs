@@ -34,7 +34,7 @@ namespace KYSliotek.Domain.UserProfile
 
         private static bool IsValidEmail(string email)
         {
-            Regex emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w{2,3})+)$",
+            Regex emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w{2,3})+)$)",
             RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
             return emailRegex.IsMatch(email);

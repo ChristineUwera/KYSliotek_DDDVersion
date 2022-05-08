@@ -1,7 +1,4 @@
-﻿using KYSliotek.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using KYSliotek.Domain.Shared;
 
 namespace KYSliotek.Domain.UserProfile
 {

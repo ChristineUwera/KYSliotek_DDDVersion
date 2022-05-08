@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace KYSliotek.Domain
+namespace KYSliotek.Domain.Book
 {
     public interface IBooksRepository
     {

@@ -1,4 +1,5 @@
-﻿using KYSliotek.Domain;
+﻿using KYSliotek.Domain.Book;
+using KYSliotek.Domain.Shared;
 using KYSliotek.Framework;
 using System;
 using System.Threading.Tasks;

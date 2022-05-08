@@ -8,8 +8,4 @@
     <ProjectReference Include="..\KYSliotek.FrameworkNew\KYSliotek.Framework.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Book\" />
-  </ItemGroup>
-
 </Project>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KYSliotek.Domain
+namespace KYSliotek.Domain.Book
 {
     public static class Events
     {
@@ -33,6 +33,15 @@ namespace KYSliotek.Domain
             public Guid Id { get; set; }
             public Guid AuthorId { get; set; }
             public Guid ApprovedBy { get; set; }
-        }        
+        }
+
+        public class PictureAddedToBook
+        {
+            public Guid BookId { get; set; }
+            public Guid PictureId { get; set; }
+            public string Url { get; set; }
+            public int Height { get; set; }
+            public int Width { get; set; }            
+        }
     }
 }

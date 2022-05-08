@@ -16,9 +16,9 @@ namespace KYSliotek
     {
         public IConfiguration Configuration { get; }
 
-        private IWebHostEnvironment Environment { get; }
+        private Microsoft.AspNetCore.Hosting.IHostingEnvironment Environment { get; }
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public Startup(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
         {
             Configuration = configuration;
             Environment = environment; 
@@ -53,7 +53,7 @@ namespace KYSliotek
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

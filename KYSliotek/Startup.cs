@@ -1,7 +1,9 @@
 using KYSliotek.Books;
 using KYSliotek.Domain.Book;
+using KYSliotek.Domain.UserProfile;
 using KYSliotek.Framework;
 using KYSliotek.Infrastructure;
+using KYSliotek.UserProfile;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -42,7 +44,12 @@ namespace KYSliotek
             services.AddScoped(c => store.OpenAsyncSession());
             services.AddScoped<IUnitOfWork, RavenDbUnitOfWork>();
             services.AddScoped<IBooksRepository, BookRepository>();
+            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<BooksApplicationService>();
+            services.AddScoped(c => new UserProfileApplicationService(
+               c.GetService<IUserProfileRepository>(),
+               c.GetService<IUnitOfWork>()));
+
 
             services.AddMvc();
             services.AddSwaggerGen(c =>

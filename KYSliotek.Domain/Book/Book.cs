@@ -153,5 +153,9 @@ namespace KYSliotek.Domain.Book
             Inactive,
             Borrowed      //bogen er udlånt
         }
+
+        // for serialization requirements
+        protected Book()
+        { }
     }
 }

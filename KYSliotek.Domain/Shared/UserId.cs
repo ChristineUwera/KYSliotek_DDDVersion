@@ -1,15 +1,16 @@
-﻿using System;
+﻿using KYSliotek.Framework;
+using System;
 
 namespace KYSliotek.Domain.Shared
 {
-    public class UserId
+    public class UserId: Value<UserId>
     {
-        private Guid Value { get; set; }
+        public Guid Value { get; private set; }
 
         public UserId(Guid value)
         {
             if (value == default)
-                throw new ArgumentNullException(nameof(value), "Author id cannot be empty");
+                throw new ArgumentNullException(nameof(value), "User id cannot be empty");
 
             Value = value;
         }

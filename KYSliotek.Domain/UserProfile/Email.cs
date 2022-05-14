@@ -1,7 +1,6 @@
 ﻿using KYSliotek.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 
 namespace KYSliotek.Domain.UserProfile
@@ -37,7 +36,16 @@ namespace KYSliotek.Domain.UserProfile
             Regex emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w{2,3})+)$)",
             RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-            return emailRegex.IsMatch(email);
+            //MailAddress address = new MailAddress(email);
+            //string host = address.Host;
+            //if(host != "gmail.com")
+
+            string[] words = email.Split('@');
+            if(words[0].Length <= 6 && words[1].Trim().Contains("gmail.com"))
+            {
+                return emailRegex.IsMatch(email);
+            }
+            return false;
         }
     }
 }

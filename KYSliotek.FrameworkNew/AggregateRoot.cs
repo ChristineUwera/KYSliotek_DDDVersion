@@ -3,9 +3,10 @@ using System.Linq;
 
 namespace KYSliotek.Framework
 {
-    public abstract class AggregateRoot<TId> : IInternalEventHandler where TId : Value<TId>
+    public abstract class AggregateRoot<TId> : IInternalEventHandler 
     {
         public TId Id { get; protected set; }
+        public int Version { get; private set; } = -1;
 
         protected abstract void When(object @event);
 
@@ -36,5 +37,17 @@ namespace KYSliotek.Framework
 
        
         void IInternalEventHandler.Handle(object @event) => When(@event);
+
+        public void Load(IEnumerable<object> history)//for eventStore
+        {
+            foreach (var e in history)
+            {
+                When(e);
+                Version++;
+            }
+        }
+        //each event increases the version of aggregate. this is for optimistic concurrency
+        //we load a history/collection of events on that aggregate, then the when method changes the state of 
+        //aggregate and then increase the aggregate version
     }
 }

@@ -28,7 +28,8 @@ namespace KYSliotek
         private static IConfiguration BuildConfiguration(string[] args)
         {
             return new ConfigurationBuilder()
-                    .SetBasePath(CurrentDirectory)                    
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", false, false)
                     .Build();
         }
 

@@ -11,6 +11,7 @@ namespace KYSliotek.Books
     {
         private readonly IAsyncDocumentSession _session;
         private static ILogger _log = Log.ForContext<BooksQueryApi>();
+       
         public BooksQueryApi(IAsyncDocumentSession session)
         {
             _session = session;
@@ -21,5 +22,14 @@ namespace KYSliotek.Books
         public Task<IActionResult> Get(QueryModels.GetPublishedBooks request)        
             => RequestHandler.HandleQuery(() => _session.Query(request), _log);
 
+
+        [HttpGet]
+        public Task<IActionResult> Get(QueryModels.GetPublicBook request)
+            => RequestHandler.HandleQuery(() => _session.Query(request), _log);
+
+        [HttpGet]
+        [Route("borrowed")]
+        public Task<IActionResult> Get(QueryModels.GetBorrowedBooks request)
+            => RequestHandler.HandleQuery(() => _session.Query(request), _log);
     }
 }

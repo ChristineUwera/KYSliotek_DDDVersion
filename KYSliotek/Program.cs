@@ -8,7 +8,7 @@ using System.IO;
 
 namespace KYSliotek
 {
-    public class Program
+    public static class Program
     {
         static Program() =>
            CurrentDirectory = Path.GetDirectoryName(GetEntryAssembly().Location);

@@ -13,23 +13,23 @@ namespace KYSliotek
     public class EventStoreService : IHostedService
     {
         private readonly IEventStoreConnection _esConnection;
-        private readonly ProjectionManager _projectionManager;
+        //private readonly ProjectionManager _projectionManager;
 
-        public EventStoreService(IEventStoreConnection esconnection, ProjectionManager projectionManager)
+        public EventStoreService(IEventStoreConnection esconnection)//, ProjectionManager projectionManager
         {
             _esConnection = esconnection;
-            _projectionManager = projectionManager;
+            //_projectionManager = projectionManager;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await _esConnection.ConnectAsync();
-            _projectionManager.Start();//start subscriprion as soon as es is connected
+           // _projectionManager.Start();//start subscriprion as soon as es is connected
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _projectionManager.Stop();
+           // _projectionManager.Stop();
             _esConnection.Close();
 
             return Task.CompletedTask;

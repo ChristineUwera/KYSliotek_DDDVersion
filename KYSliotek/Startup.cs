@@ -38,15 +38,16 @@ namespace KYSliotek
             var es_store = new EsAggregateStore(esConnection);
             services.AddSingleton(esConnection);
             services.AddSingleton<IAggregateStore>(es_store);
-            services.AddSingleton(new UserProfileApplicationServiceForEventStore(es_store));
             
-            //inMemory collection
-            var userDetails = new List<ReadModels.UserDetails>();
-            services.AddSingleton<IEnumerable<ReadModels.UserDetails>>(userDetails);
 
-            var projectionManager = new ProjectionManager(esConnection, new UserDetailsProjection(userDetails));
-            services.AddSingleton<IHostedService>(new EventStoreService(esConnection, projectionManager));
-                        
+            //inMemory collection
+            //var userDetails = new List<ReadModels.UserDetails>();
+            //services.AddSingleton<IEnumerable<ReadModels.UserDetails>>(userDetails);
+
+            //var projectionManager = new ProjectionManager(esConnection, new UserDetailsProjection(userDetails));
+            //services.AddSingleton<IHostedService>(new EventStoreService(esConnection, projectionManager));
+            services.AddSingleton<IHostedService, EventStoreService>();
+            services.AddSingleton(new UserProfileApplicationServiceForEventStore(es_store));
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {

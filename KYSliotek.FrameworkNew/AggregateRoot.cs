@@ -6,7 +6,7 @@ namespace KYSliotek.Framework
     public abstract class AggregateRoot<TId> : IInternalEventHandler 
     {
         public TId Id { get; protected set; }
-        public int Version { get; private set; } = -1;
+        public int Version { get; private set; } = -1;//for optimistic concurrency in EventStoreDb
 
         protected abstract void When(object @event);
 

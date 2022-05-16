@@ -24,4 +24,8 @@
 		<Content Update="appsettings.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="LentingServices\" />
+	</ItemGroup>
+
 </Project>

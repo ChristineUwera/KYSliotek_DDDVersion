@@ -1,9 +1,6 @@
 ﻿using KYSliotek.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace KYSliotek.UserProfile
@@ -11,10 +8,11 @@ namespace KYSliotek.UserProfile
     [Route("/user")]
     public class UserProfileCommandsApi : Controller
     {
-        private readonly UserProfileApplicationService _applicationService;
+        //private readonly UserProfileApplicationService _applicationService;
         private static readonly ILogger Log = Serilog.Log.ForContext<UserProfileCommandsApi>();
+        private readonly UserProfileApplicationServiceForEventStore _applicationService;
 
-        public UserProfileCommandsApi(UserProfileApplicationService appliactionService)
+        public UserProfileCommandsApi(UserProfileApplicationServiceForEventStore appliactionService)
         {
             _applicationService = appliactionService;
         }

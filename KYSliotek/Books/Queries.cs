@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static KYSliotek.Books.ReadModels;
+using static KYSliotek.Projections.ReadModels;
 using static KYSliotek.Domain.Book.Book;
 
 namespace KYSliotek.Books

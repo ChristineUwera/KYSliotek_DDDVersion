@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace KYSliotek.Books
+namespace KYSliotek.Projections
 {
     public static class ReadModels
     {

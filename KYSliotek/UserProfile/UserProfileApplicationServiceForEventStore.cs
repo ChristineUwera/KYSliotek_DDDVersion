@@ -34,8 +34,8 @@ namespace KYSliotek.UserProfile
 
         private async Task HandleCreate(Contracts.V1.RegisterUser cmd)
         {
-            if (await _store.Exists<Domain.UserProfile.UserProfile, UserId>(new UserId(cmd.UserId)))
-                throw new InvalidOperationException($"Entity with id {cmd.UserId} already exists");
+            //if (await _store.Exists<Domain.UserProfile.UserProfile, UserId>(new UserId(cmd.UserId)))
+            //    throw new InvalidOperationException($"Entity with id {cmd.UserId} already exists");
 
             var userProfile = new KYSliotek.Domain.UserProfile.UserProfile(
                 new UserId(cmd.UserId),

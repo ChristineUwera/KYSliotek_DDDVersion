@@ -32,8 +32,16 @@ namespace KYSliotek
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //var settings = ConnectionSettings.Create()
+            //     .EnableVerboseLogging()
+            //     .UseConsoleLogger()
+            //     .DisableTls()
+            //    .Build();
+            //var connection = EventStoreConnection.Create(settings, new Uri("tcp://admin:changeit@127.0.0.1:1113"));
+
             var esConnection = EventStoreConnection.Create( Configuration["eventStore:connectionString"],
-                                                            ConnectionSettings.Create().KeepReconnecting(),
+                                                            ConnectionSettings.Create().EnableVerboseLogging()
+                                                            .UseConsoleLogger().KeepReconnecting(),
                                                             Environment.ApplicationName);
             var es_store = new EsAggregateStore(esConnection);
             services.AddSingleton(esConnection);

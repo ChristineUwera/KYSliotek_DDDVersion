@@ -18,6 +18,8 @@ namespace KYSliotek.Infrastructure
             var jsonData = Encoding.UTF8.GetString(resolvedEvent.Event.Data);
             var data = JsonConvert.DeserializeObject(jsonData, dataType);
             return data;
+
+            //Console.WriteLine("Read event with data: {0}, data : {1}", data, meta);
         }
     }
 }

@@ -27,5 +27,10 @@ namespace KYSliotek.Projections
             public string Name { get; set; }
             public string Email { get; set; }
         }
+        public class UsersList
+        {           
+            public string Name { get; set; }
+            public string Email { get; set; }
+        }
     }
 }

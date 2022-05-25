@@ -8,11 +8,11 @@ namespace KYSliotek.UserProfile
     [Route("/user")]
     public class UserProfileCommandsApi : Controller
     {
-        //private readonly UserProfileApplicationService _applicationService;
+        private readonly UserProfileApplicationService _applicationService;
         private static readonly ILogger Log = Serilog.Log.ForContext<UserProfileCommandsApi>();
-        private readonly UserProfileApplicationServiceForEventStore _applicationService;
+        //private readonly UserProfileApplicationServiceForEventStore _applicationService;
 
-        public UserProfileCommandsApi(UserProfileApplicationServiceForEventStore appliactionService)
+        public UserProfileCommandsApi(UserProfileApplicationService appliactionService)                     //UserProfileApplicationServiceForEventStore
         {
             _applicationService = appliactionService;
         }

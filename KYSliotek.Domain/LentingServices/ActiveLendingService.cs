@@ -11,7 +11,7 @@ namespace KYSliotek.Domain.LendingService
         public BookId BookId { get; set; }
         public UserId AppUserId { get; set; }
         public DateTimeOffset CreatedOn { get; set; }
-        public DateTimeOffset ValidTil { get; set; }
+        public DateTimeOffset ValidTil { get; set; }//dueDate
 
     }
 }

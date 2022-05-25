@@ -31,31 +31,54 @@ namespace KYSliotek
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            //var settings = ConnectionSettings.Create()
-            //     .EnableVerboseLogging()
-            //     .UseConsoleLogger()
-            //     .DisableTls()
-            //    .Build();
-            //var connection = EventStoreConnection.Create(settings, new Uri("tcp://admin:changeit@127.0.0.1:1113"));
+        {            
+                //RavenDb
+                var store = new DocumentStore
+                {
+                    Urls = new[] { "http://localhost:8080" },
+                    Database = "MiniBibliotek_Db",
+                    Conventions =
+                    {
+                        FindIdentityProperty = x => x.Name == "DbId"
+                    }
+                };
+                store.Initialize();
 
-            var esConnection = EventStoreConnection.Create( Configuration["eventStore:connectionString"],
-                                                            ConnectionSettings.Create().EnableVerboseLogging()
-                                                            .UseConsoleLogger().KeepReconnecting(),
-                                                            Environment.ApplicationName);
-            var es_store = new EsAggregateStore(esConnection);
-            services.AddSingleton(esConnection);
-            services.AddSingleton<IAggregateStore>(es_store);
-            
+                services.AddScoped(c => store.OpenAsyncSession());
+                services.AddScoped<IUnitOfWork, RavenDbUnitOfWork>();
+                services.AddScoped<IBooksRepository, BookRepository>();
+                services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+                services.AddScoped<BooksApplicationService>();
+                services.AddScoped(c => new UserProfileApplicationService(
+                   c.GetService<IUserProfileRepository>(),
+                   c.GetService<IUnitOfWork>()));
+     
 
-            //inMemory collection
-            //var userDetails = new List<ReadModels.UserDetails>();
-            //services.AddSingleton<IEnumerable<ReadModels.UserDetails>>(userDetails);
+            //{
+            //    //var settings = ConnectionSettings.Create()
+            //    //     .EnableVerboseLogging()
+            //    //     .UseConsoleLogger()
+            //    //     .DisableTls()
+            //    //    .Build();
+            //    //var connection = EventStoreConnection.Create(settings, new Uri("tcp://admin:changeit@127.0.0.1:1113"));
 
-            //var projectionManager = new ProjectionManager(esConnection, new UserDetailsProjection(userDetails));
-            //services.AddSingleton<IHostedService>(new EventStoreService(esConnection, projectionManager));
-            services.AddSingleton<IHostedService, EventStoreService>();
-            services.AddSingleton(new UserProfileApplicationServiceForEventStore(es_store));
+            //    var esConnection = EventStoreConnection.Create( Configuration["eventStore:connectionString"],
+            //                                                    ConnectionSettings.Create().EnableVerboseLogging()
+            //                                                    .UseConsoleLogger().KeepReconnecting(),
+            //                                                    Environment.ApplicationName);
+            //    var es_store = new EsAggregateStore(esConnection);
+            //    services.AddSingleton(esConnection);
+            //    services.AddSingleton<IAggregateStore>(es_store);
+
+
+            //    //inMemory collection
+            //    //var userDetails = new List<ReadModels.UserDetails>();
+            //    //services.AddSingleton<IEnumerable<ReadModels.UserDetails>>(userDetails);
+
+            //    //var projectionManager = new ProjectionManager(esConnection, new UserDetailsProjection(userDetails));
+            //    //services.AddSingleton<IHostedService>(new EventStoreService(esConnection, projectionManager));
+            //    services.AddSingleton<IHostedService, EventStoreService>();
+            //    services.AddSingleton(new UserProfileApplicationServiceForEventStore(es_store));
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {

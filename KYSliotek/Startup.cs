@@ -1,9 +1,11 @@
 using EventStore.ClientAPI;
 using KYSliotek.Books;
 using KYSliotek.Domain.Book;
+using KYSliotek.Domain.LentingServices;
 using KYSliotek.Domain.UserProfile;
 using KYSliotek.Framework;
 using KYSliotek.Infrastructure;
+using KYSliotek.Lendings;
 using KYSliotek.Projections;
 using KYSliotek.UserProfile;
 using Microsoft.AspNetCore.Builder;
@@ -52,7 +54,10 @@ namespace KYSliotek
                 services.AddScoped(c => new UserProfileApplicationService(
                    c.GetService<IUserProfileRepository>(),
                    c.GetService<IUnitOfWork>()));
-
+            services.AddScoped<ILendingRepository, LendingRepository>();
+            services.AddScoped(c => new LendingApplicationService(
+                 c.GetService<ILendingRepository>(), c.GetService<IUnitOfWork>()));
+            // services.AddScoped<LendingApplicationService>();
 
             //{
             //    //var settings = ConnectionSettings.Create()

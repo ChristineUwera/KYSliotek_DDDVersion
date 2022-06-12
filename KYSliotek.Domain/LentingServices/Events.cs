@@ -1,8 +1,4 @@
-﻿using KYSliotek.Domain.LendingService;
-using KYSliotek.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace KYSliotek.Domain.LentingServices
 {

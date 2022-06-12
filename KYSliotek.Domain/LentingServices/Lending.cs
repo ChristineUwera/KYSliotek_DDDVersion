@@ -1,5 +1,4 @@
-﻿using KYSliotek.Domain.LendingService;
-using KYSliotek.Domain.Shared;
+﻿using KYSliotek.Domain.Shared;
 using KYSliotek.Framework;
 using System;
 using static KYSliotek.Domain.LentingServices.Events;
@@ -58,8 +57,8 @@ namespace KYSliotek.Domain.LentingServices
             var valid =
                 Id != null &&
                 BookId != null &&
-                AppUserId != null &&
-                ItemStatus != BookStatus.LentOut; 
+                AppUserId != null; //&&
+                //ItemStatus != BookStatus.LentOut; 
             if (!valid)
                 throw new InvalidEntityStateException(
                    this, $"Lending Creation failed in state {ItemStatus}");

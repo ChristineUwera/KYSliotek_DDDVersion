@@ -1,9 +1,8 @@
-﻿using KYSliotek.Domain.Shared;
+﻿using KYSliotek.Domain.Book;
+using KYSliotek.Domain.Shared;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace KYSliotek.Domain.LendingService
+namespace KYSliotek.Domain.LendingServices
 {
     public class ActiveLendingService
     {

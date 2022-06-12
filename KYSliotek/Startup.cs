@@ -52,7 +52,7 @@ namespace KYSliotek
                 services.AddScoped(c => new UserProfileApplicationService(
                    c.GetService<IUserProfileRepository>(),
                    c.GetService<IUnitOfWork>()));
-     
+
 
             //{
             //    //var settings = ConnectionSettings.Create()
@@ -77,8 +77,9 @@ namespace KYSliotek
 
             //    //var projectionManager = new ProjectionManager(esConnection, new UserDetailsProjection(userDetails));
             //    //services.AddSingleton<IHostedService>(new EventStoreService(esConnection, projectionManager));
-            //    services.AddSingleton<IHostedService, EventStoreService>();
+            //    
             //    services.AddSingleton(new UserProfileApplicationServiceForEventStore(es_store));
+            //    services.AddSingleton<IHostedService, EventStoreService>();
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {

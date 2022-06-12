@@ -1,7 +1,7 @@
 ﻿using KYSliotek.Framework;
 using System;
 
-namespace KYSliotek.Domain.LendingService
+namespace KYSliotek.Domain.LentingServices
 {
     public class LendingId : Value<LendingId>
     {

@@ -10,8 +10,8 @@ namespace KYSliotek.Domain.LendingService
         public Guid LendingId { get; set; }
         public BookId BookId { get; set; }
         public UserId AppUserId { get; set; }
-        public DateTimeOffset CreatedOn { get; set; }
-        public DateTimeOffset ValidTil { get; set; }//dueDate
+        public DateTimeOffset LentDate { get; set; }//datetime.now
+        public DateTimeOffset DueDate { get; set; }//dueDate
 
     }
 }

@@ -22,8 +22,10 @@ namespace KYSliotek.Lendings
             => RequestHandler.HandleQuery(() => _session.Query(request), _log);
 
         [HttpGet]       //GetById
+        [Route("lendingDetails")]
         public Task<IActionResult> Get(QueryModels.GetLendingDetails request)
            => RequestHandler.HandleQuery(() => _session.Query(request), _log);
+
 
         [HttpGet]
         [Route("myLendings")]

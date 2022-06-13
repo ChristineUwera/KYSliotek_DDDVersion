@@ -24,6 +24,7 @@ namespace KYSliotek.Books
 
 
         [HttpGet]
+        //[Route("bookDetails")]
         public Task<IActionResult> Get(QueryModels.GetPublicBook request)
             => RequestHandler.HandleQuery(() => _session.Query(request), _log);
 

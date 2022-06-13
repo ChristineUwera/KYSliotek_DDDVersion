@@ -37,33 +37,38 @@ namespace KYSliotek.Lendings
        => (from lending in session.Query<KYSliotek.Domain.LentingServices.Lending>()
            where lending.Id.Value == query.LendingId
            let book = RavenQuery.Load< Book>("Book/" + lending.BookId.Value)
+           let user = RavenQuery.Load< Domain.UserProfile.UserProfile>("UserProfile/" + lending.AppUserId.Value)
            select new LendingDetails
            {
                LendingId = lending.Id.Value,
-               BookId = lending.BookId, 
+               BookId = lending.BookId.Value, 
                BookTtle = book.Title.Value, 
-               AppUserId = lending.AppUserId,
+               AppUsersName = user.FullName.Value,
                LentDate = lending.LentDate,
                DueDate = lending.DueDate
            }).SingleAsync();
 
         //GetUsersLendings
 
-        public static Task<List<PublicLendingListItem>> Query(this IAsyncDocumentSession session,
+        public static Task<List<PublicUsersLendingListItem>> Query(this IAsyncDocumentSession session,
         QueryModels.GetUsersLendings query)
-      => (from lending in session.Query<KYSliotek.Domain.LentingServices.Lending>()
+      => session.Query<Domain.LentingServices.Lending>()
+            .Where(x => x.AppUserId.Value == query.UserId)
+            .Select ( x => new PublicUsersLendingListItem
+            {
+              LendingId = x.Id.Value,
+              BookId = x.BookId.Value,
+              LentDate = x.LentDate,
+              DueDate = x.DueDate
+            }
+            ).PagedList(query.Page, query.PageSize);
+
+    /*
+     (from lending in session.Query<KYSliotek.Domain.LentingServices.Lending>()
           where lending.AppUserId.Value == query.UserId
-          select new PublicLendingListItem
-          {
-              LendingId = lending.Id.Value,
-              BookId = lending.BookId,
-              LentDate = lending.LentDate,
-              DueDate = lending.DueDate
-          }).PagedList(query.Page, query.PageSize);
+     */
 
-
-
-        private static Task<List<T>> PagedList<T>(
+    private static Task<List<T>> PagedList<T>(
           this IRavenQueryable<T> query, int page, int pageSize
       ) =>
           query

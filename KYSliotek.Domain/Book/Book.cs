@@ -18,7 +18,7 @@ namespace KYSliotek.Domain.Book
         }
 
         //public BookId Id { get; private set; }
-        public Guid AuthorId { get; private set; }
+        public AuthorId AuthorId { get; private set; }
         public BookTitle Title { get; private set; }
         public BookDescription Description { get; private set; }        
         public BookStatus Status { get; private set; }
@@ -116,7 +116,7 @@ namespace KYSliotek.Domain.Book
             {
                 case BookCreated e:
                     Id = new BookId(e.Id);
-                    AuthorId = e.AuthorId;
+                    AuthorId = new AuthorId(e.AuthorId);
                     Status = BookStatus.Inactive;
                     break;
 

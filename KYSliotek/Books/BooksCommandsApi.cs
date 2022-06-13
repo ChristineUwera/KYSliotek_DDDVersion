@@ -9,9 +9,10 @@ namespace KYSliotek.Books
     [Route("/books")]
     public class BooksCommandsApi: Controller
     {
-        private readonly BooksApplicationService _applicationService;
+        //private readonly BooksApplicationService _applicationService;
 
-        public BooksCommandsApi(BooksApplicationService applicationService)
+        private readonly BooksApplicationServiceForEventStore _applicationService; 
+        public BooksCommandsApi(BooksApplicationServiceForEventStore applicationService)
         {
             _applicationService = applicationService;
         }

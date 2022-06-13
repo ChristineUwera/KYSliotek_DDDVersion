@@ -1,12 +1,16 @@
 ﻿using KYSliotek.Domain.Book;
+using KYSliotek.Infrastructure;
 using Raven.Client.Documents.Session;
-using System.Threading.Tasks;
 
 namespace KYSliotek.Books
 {
-    public class BookRepository : IBooksRepository
+    public class BookRepository : RavenDbRepository<Book, BookId>, IBooksRepository
     {
-        private readonly IAsyncDocumentSession _session;
+        public BookRepository(IAsyncDocumentSession session)
+         : base(session, id => $"Book/{id.Value.ToString()}") { }
+
+        /*
+         * private readonly IAsyncDocumentSession _session;
 
         private static string EntityId(BookId id)   //for ravenDb
          => $"Book/{id.ToString()}";
@@ -30,5 +34,6 @@ namespace KYSliotek.Books
         {
             return _session.LoadAsync<Book>(EntityId(id));
         }
+        */
     }
 }

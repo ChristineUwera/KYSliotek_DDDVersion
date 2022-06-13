@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace KYSliotek.UserProfile
 {
+    //in case we need to experiment with eventstore, use this application service in controller by dependency injection
+
     public class UserProfileApplicationServiceForEventStore : IApplicationService
     {
         private readonly IAggregateStore _store;

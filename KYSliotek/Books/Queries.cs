@@ -21,7 +21,7 @@ namespace KYSliotek.Books
                 {
                     BookId = x.Id.Value,
                     Title = x.Title.Value,
-                    AuthorId = x.AuthorId
+                    AuthorId = x.AuthorId.Value
                 }).PagedList(query.Page, query.PageSize);
         }       
 
@@ -46,8 +46,8 @@ namespace KYSliotek.Books
             {
                     BookId = book.Id.Value,
                     Title = book.Title.Value,
-                    AuthorId = book.AuthorId,
-                    Description = book.Description
+                    AuthorId = book.AuthorId.Value,
+                    Description = book.Description.Value
             }).SingleAsync();
         
 

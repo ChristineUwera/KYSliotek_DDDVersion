@@ -47,7 +47,9 @@ namespace KYSliotek.Framework
             }
         }
         //each event increases the version of aggregate. this is for optimistic concurrency
-        //we load a history/collection of events on that aggregate, then the when method changes the state of 
-        //aggregate and then increase the aggregate version
+        //we load a history/collection of events that were previously stored, then rebuild the state of our domain object from those events.
+        //Then this When method changes the aggregate state for each event in the collection.
+        //Each time we call it for each event from the history, we get our aggregate back to the last known state.
+        //and then increase the aggregate version for each applied event.
     }
 }

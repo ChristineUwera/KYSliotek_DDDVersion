@@ -21,9 +21,9 @@ namespace KYSliotek
             //_projectionManager = projectionManager;
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            await _esConnection.ConnectAsync();
+             return _esConnection.ConnectAsync();
            // _projectionManager.Start();//start subscriprion as soon as es is connected
         }
 

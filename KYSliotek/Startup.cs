@@ -1,9 +1,11 @@
 using EventStore.ClientAPI;
 using KYSliotek.Books;
 using KYSliotek.Domain.Book;
+using KYSliotek.Domain.LentingServices;
 using KYSliotek.Domain.UserProfile;
 using KYSliotek.Framework;
 using KYSliotek.Infrastructure;
+using KYSliotek.Lendings;
 using KYSliotek.Projections;
 using KYSliotek.UserProfile;
 using Microsoft.AspNetCore.Builder;
@@ -31,23 +33,55 @@ namespace KYSliotek
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            var esConnection = EventStoreConnection.Create( Configuration["eventStore:connectionString"],
-                                                            ConnectionSettings.Create().KeepReconnecting(),
-                                                            Environment.ApplicationName);
+        {    /*        
+                //RavenDb
+                var store = new DocumentStore
+                {
+                    Urls = new[] { "http://localhost:8080" },
+                    Database = "MiniBibliotek_Db",
+                    Conventions =
+                    {
+                        FindIdentityProperty = x => x.Name == "DbId"
+                    }
+                };
+                store.Initialize();
+
+                services.AddScoped(c => store.OpenAsyncSession());
+                services.AddScoped<IUnitOfWork, RavenDbUnitOfWork>();
+                services.AddScoped<IBooksRepository, BookRepository>();
+                services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+                services.AddScoped<BooksApplicationService>();
+                services.AddScoped(c => new UserProfileApplicationService(
+                   c.GetService<IUserProfileRepository>(),
+                   c.GetService<IUnitOfWork>()));
+            services.AddScoped<ILendingRepository, LendingRepository>();
+            services.AddScoped(c => new LendingApplicationService(
+                 c.GetService<ILendingRepository>(), c.GetService<IUnitOfWork>()));
+            */
+            //working with EventStoreDB and EventSourcing
+
+            var esConnection = EventStoreConnection.Create
+                    (Configuration["eventStore:connectionString"],
+                    ConnectionSettings.Create().KeepReconnecting(),//EnableVerboseLogging().UseConsoleLogger()
+                    Environment.ApplicationName);
+
             var es_store = new EsAggregateStore(esConnection);
             services.AddSingleton(esConnection);
             services.AddSingleton<IAggregateStore>(es_store);
-            
 
-            //inMemory collection
-            //var userDetails = new List<ReadModels.UserDetails>();
-            //services.AddSingleton<IEnumerable<ReadModels.UserDetails>>(userDetails);
 
-            //var projectionManager = new ProjectionManager(esConnection, new UserDetailsProjection(userDetails));
-            //services.AddSingleton<IHostedService>(new EventStoreService(esConnection, projectionManager));
-            services.AddSingleton<IHostedService, EventStoreService>();
+            //    //inMemory collection
+            //    //var userDetails = new List<ReadModels.UserDetails>();
+            //    //services.AddSingleton<IEnumerable<ReadModels.UserDetails>>(userDetails);
+
+            //    //var projectionManager = new ProjectionManager(esConnection, new UserDetailsProjection(userDetails));
+            //    //services.AddSingleton<IHostedService>(new EventStoreService(esConnection, projectionManager));
+            //    
             services.AddSingleton(new UserProfileApplicationServiceForEventStore(es_store));
+            services.AddSingleton(new BooksApplicationServiceForEventStore(es_store));
+            services.AddSingleton(new LendingApplicationServiceForEventStore(es_store));
+            services.AddSingleton<IHostedService, EventStoreService>();
+
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {

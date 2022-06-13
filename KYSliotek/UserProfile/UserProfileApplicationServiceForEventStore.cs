@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace KYSliotek.UserProfile
 {
+    //in case we need to experiment with eventstore, use this application service in controller by dependency injection
+
     public class UserProfileApplicationServiceForEventStore : IApplicationService
     {
         private readonly IAggregateStore _store;
@@ -34,8 +36,8 @@ namespace KYSliotek.UserProfile
 
         private async Task HandleCreate(Contracts.V1.RegisterUser cmd)
         {
-            //if (await _store.Exists<Domain.UserProfile.UserProfile, UserId>(new UserId(cmd.UserId)))
-            //    throw new InvalidOperationException($"Entity with id {cmd.UserId} already exists");
+            if (await _store.Exists<Domain.UserProfile.UserProfile, UserId>(new UserId(cmd.UserId)))
+                throw new InvalidOperationException($"Entity with id {cmd.UserId} already exists");
 
             var userProfile = new KYSliotek.Domain.UserProfile.UserProfile(
                 new UserId(cmd.UserId),

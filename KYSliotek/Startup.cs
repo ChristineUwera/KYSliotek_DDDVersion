@@ -33,7 +33,7 @@ namespace KYSliotek
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {    /*        
                 //RavenDb
                 var store = new DocumentStore
                 {
@@ -57,23 +57,17 @@ namespace KYSliotek
             services.AddScoped<ILendingRepository, LendingRepository>();
             services.AddScoped(c => new LendingApplicationService(
                  c.GetService<ILendingRepository>(), c.GetService<IUnitOfWork>()));
-            // services.AddScoped<LendingApplicationService>();
+            */
+            //working with EventStoreDB and EventSourcing
 
-            //{
-            //    //var settings = ConnectionSettings.Create()
-            //    //     .EnableVerboseLogging()
-            //    //     .UseConsoleLogger()
-            //    //     .DisableTls()
-            //    //    .Build();
-            //    //var connection = EventStoreConnection.Create(settings, new Uri("tcp://admin:changeit@127.0.0.1:1113"));
+            var esConnection = EventStoreConnection.Create
+                    (Configuration["eventStore:connectionString"],
+                    ConnectionSettings.Create().KeepReconnecting(),//EnableVerboseLogging().UseConsoleLogger()
+                    Environment.ApplicationName);
 
-            //    var esConnection = EventStoreConnection.Create( Configuration["eventStore:connectionString"],
-            //                                                    ConnectionSettings.Create().EnableVerboseLogging()
-            //                                                    .UseConsoleLogger().KeepReconnecting(),
-            //                                                    Environment.ApplicationName);
-            //    var es_store = new EsAggregateStore(esConnection);
-            //    services.AddSingleton(esConnection);
-            //    services.AddSingleton<IAggregateStore>(es_store);
+            var es_store = new EsAggregateStore(esConnection);
+            services.AddSingleton(esConnection);
+            services.AddSingleton<IAggregateStore>(es_store);
 
 
             //    //inMemory collection
@@ -83,8 +77,11 @@ namespace KYSliotek
             //    //var projectionManager = new ProjectionManager(esConnection, new UserDetailsProjection(userDetails));
             //    //services.AddSingleton<IHostedService>(new EventStoreService(esConnection, projectionManager));
             //    
-            //    services.AddSingleton(new UserProfileApplicationServiceForEventStore(es_store));
-            //    services.AddSingleton<IHostedService, EventStoreService>();
+            services.AddSingleton(new UserProfileApplicationServiceForEventStore(es_store));
+            services.AddSingleton(new BooksApplicationServiceForEventStore(es_store));
+            services.AddSingleton(new LendingApplicationServiceForEventStore(es_store));
+            services.AddSingleton<IHostedService, EventStoreService>();
+
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {

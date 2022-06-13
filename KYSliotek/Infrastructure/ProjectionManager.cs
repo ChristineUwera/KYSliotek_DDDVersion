@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace KYSliotek.Infrastructure
-{
+{/*
     public class ProjectionManager
     {
         private readonly IEventStoreConnection _connection;
@@ -36,7 +36,7 @@ namespace KYSliotek.Infrastructure
             if (resolvedEvent.Event.EventType.StartsWith("$"))
                 return Task.CompletedTask;
 
-            var @event = resolvedEvent.Deserialzie();
+            var @event = resolvedEvent.Deserializie();
 
             Log.Debug("Projecting event {type}", @event.GetType().Name);
 
@@ -46,4 +46,5 @@ namespace KYSliotek.Infrastructure
         //to stop the subscription
         public void Stop() => _subscription.Stop();
     }
+    */
 }

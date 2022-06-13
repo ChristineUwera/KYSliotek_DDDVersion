@@ -8,10 +8,12 @@ namespace KYSliotek.Lendings
     [Route("/lendings")]
     public class LendingCommandsApi : Controller
     {
-        private readonly LendingApplicationService _applicationService;
+        //private readonly LendingApplicationService _applicationService;
+
+        private readonly LendingApplicationServiceForEventStore _applicationService;
         private static readonly ILogger Log = Serilog.Log.ForContext<LendingCommandsApi>();
 
-        public LendingCommandsApi(LendingApplicationService lendingApplicationService)
+        public LendingCommandsApi(LendingApplicationServiceForEventStore lendingApplicationService)
         {
             _applicationService = lendingApplicationService;
         }

@@ -35,7 +35,7 @@ namespace KYSliotek.Infrastructure
             var page = await _connection.ReadStreamEventsForwardAsync(stream, 0, 1024, false);
 
             aggregate.Load(page.Events.Select(
-                resolvedEvent => resolvedEvent.Deserialzie()).ToArray());
+                resolvedEvent => resolvedEvent.Deserialzer()).ToArray());
 
             return aggregate;
         }

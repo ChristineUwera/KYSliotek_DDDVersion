@@ -8,11 +8,12 @@ namespace KYSliotek.UserProfile
     [Route("/user")]
     public class UserProfileCommandsApi : Controller
     {
-        private readonly UserProfileApplicationService _applicationService;
-        private static readonly ILogger Log = Serilog.Log.ForContext<UserProfileCommandsApi>();
-        //private readonly UserProfileApplicationServiceForEventStore _applicationService;
+        //private readonly UserProfileApplicationService _applicationService;
 
-        public UserProfileCommandsApi(UserProfileApplicationService appliactionService)                     //UserProfileApplicationServiceForEventStore
+        private static readonly ILogger Log = Serilog.Log.ForContext<UserProfileCommandsApi>();
+        private readonly UserProfileApplicationServiceForEventStore _applicationService;
+
+        public UserProfileCommandsApi(UserProfileApplicationServiceForEventStore appliactionService)                     
         {
             _applicationService = appliactionService;
         }
@@ -31,6 +32,5 @@ namespace KYSliotek.UserProfile
         [HttpPut]
         public Task<IActionResult> Put(Contracts.V1.UpdateUserEmail request)
               => RequestHandler.HandleCommand(request, _applicationService.Handle, Log);
-    }//for email validation, we should send an email verification to the registered user.
-    //for them to confirm the email. 
+    }
 }

@@ -19,11 +19,11 @@ namespace KYSliotek.UserProfile
 
         [HttpGet]
         [Route("list")]
-        public async Task<IActionResult> Get(QueryModels.GetUsers request)
+        public Task<IActionResult> Get(QueryModels.GetUsers request)
             => RequestHandler.HandleQuery(() => _session.Query(request), _log);
        
         [HttpGet]//("{id}")
-        public async Task<IActionResult> Get(QueryModels.GetUserById request)
+        public Task<IActionResult> Get(QueryModels.GetUserById request)
             => RequestHandler.HandleQuery(() => _session.Query(request), _log);
 
     }
